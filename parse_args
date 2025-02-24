@@ -1,0 +1,23 @@
+parse_args() {
+    named_args=()
+    while [ -n "$1" ] && [ "$1" != "--" ]; do
+        named_args+=($1)
+        shift
+    done
+    shift
+
+    named_count=${#named_args[@]}
+    
+    provided_args=("$@")
+    provided_count=${#provided_args[@]}
+
+    if [ "$named_count" != "$provided_count" ]; then 
+        >&2 echo "syntax error: args: ${named_args[@]}"
+        exit 1
+    fi
+
+	for i in "${!named_args[@]}"; do 
+		kv=$(printf "%s=%q\n" "${named_args[i]}" "${provided_args[i]}")
+		eval $kv
+	done
+}
