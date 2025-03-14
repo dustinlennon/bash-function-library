@@ -1,15 +1,20 @@
+bash-function-library
+====
 
-This is a repository for perhaps reusable bash functions.  For now, the semantic is copy and paste: we want dependent projects to be self contained.
-
-Each contribution will contain the definition and a corresponding shell script demonstrating its use.
+A repository for useful bash functions.  
 
 
 Catalog
 ----
 
-### parse_args
+### container state
 
-Specify / validate a function signature.
+Acquire the state of a docker container
+
+
+### process_args
+
+Specify / validate a function signature and assign named variables in the caller
 
 
 ### script_dir

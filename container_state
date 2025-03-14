@@ -1,0 +1,6 @@
+source $BFL/process_args
+
+container_state() {
+    process_args container -- "$@"
+    docker container inspect -f '{{.State.Status}}' $container 2> /dev/null || :
+}

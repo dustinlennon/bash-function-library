@@ -1,0 +1,34 @@
+# Specify / validate a function signature and assign named variables in the
+# caller.
+process_args() {
+    named_args=()
+	additional_args=()
+
+    while [ -n "$1" ] && [ "$1" != "--" ]; do
+        named_args+=($1)
+        shift
+    done
+    shift
+
+    named_count=${#named_args[@]}
+    
+    provided_args=("$@")
+	provided_count=${#provided_args[@]}
+
+    if [ "$named_count" -gt "$provided_count" ]; then 
+        >&2 echo "syntax error: args: ${named_args[@]}"
+        exit 1
+    fi
+
+	for i in "${!provided_args[@]}"; do 
+		quoted_arg=$(printf -- "%q" "${provided_args[i]}")
+		if [ "$i" -lt "$named_count" ]; then
+			eval "${named_args[i]}=${quoted_arg}"
+		else
+			additional_args+=($quoted_arg)
+		fi
+	done
+
+	eval "args=(${additional_args[@]})"
+}
+
