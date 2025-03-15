@@ -1,0 +1,15 @@
+workspace_dotenv() {
+	# the project directory
+	PYTHONPATH=$(pwd)
+
+	# add the pipenv virtual environment
+	if [ ! -f Pipfile ]; then
+		pipenv --python /usr/bin/python3 > /dev/null 2>&1
+	fi
+	PYTHONPATH=${PYTHONPATH}:$(pipenv --venv 2> /dev/null)/lib/python3.12/site-packages
+
+	# add the pipx environment for IPython functionality
+	PYTHONPATH=${PYTHONPATH}:${HOME}/.local/share/pipx/venvs/jupyterlab/lib/python3.12/site-packages
+
+	echo $PYTHONPATH
+}
